@@ -66,7 +66,7 @@ fig_unconditional <- ggplot() +
   theme_minimal(base_size = 12) +
   theme(plot.title = element_text(face = "bold"))
 
-ggsave("output/figures/fig1_profile_unconditional.png", fig_unconditional,
+ggsave("02_output/figures/fig1_profile_unconditional.png", fig_unconditional,
        width = 10, height = 7, dpi = 300)
 
 # ------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ fig_comparison <- ggplot(comparison_data, aes(x = age, y = prediccion, color = m
     legend.background = element_rect(fill = "white", color = "gray80")
   )
 
-ggsave("output/figures/fig2_profile_comparison.png", fig_comparison,
+ggsave("02_output/figures/fig2_profile_comparison.png", fig_comparison,
        width = 10, height = 7, dpi = 300)
 
 # ------------------------------------------------------------------------------
@@ -160,5 +160,5 @@ fig_bootstrap <- ggplot(boot_df, aes(x = peak_age, fill = Modelo)) +
   theme_minimal(base_size = 12) +
   theme(plot.title = element_text(face = "bold"))
 
-ggsave("output/figures/fig3_bootstrap_peak_age.png", fig_bootstrap,
+ggsave("02_output/figures/fig3_bootstrap_peak_age.png", fig_bootstrap,
        width = 10, height = 6, dpi = 300)

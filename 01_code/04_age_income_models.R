@@ -34,7 +34,7 @@ cat("Coef. Age²:  ", round(beta_age2_unc, 7), "\n")
 cat("R² ajustado: ", round(summary(model_unconditional)$adj.r.squared, 4), "\n")
 cat("EDAD PICO:   ", round(peak_age_unconditional, 2), "años\n")
 
-# Verificar concavidad (β₃ < 0 implica perfil cóncavo)
+# Verificmos la concavidad (β₃ < 0 implica perfil cóncavo)
 if (beta_age2_unc < 0) {
   cat("✓ β₃ < 0 → Perfil CÓNCAVO (consistente con teoría del capital humano)\n")
 } else {
@@ -145,18 +145,6 @@ stargazer(model_unconditional, model_conditional,
           ),
           omit.stat = c("f", "ser"),
           notes = "IC de la edad pico calculados por bootstrap (B=1000).",
-          out = "output/tables/table1_age_income_profile.txt")
+          out = "02_output/tables/table1_age_income_profile.txt")
 
-# También en HTML
-stargazer(model_unconditional, model_conditional,
-          type = "html",
-          title = "Perfil Edad-Ingreso Laboral",
-          dep.var.labels = "Log(Ingreso Mensual)",
-          column.labels = c("Incondicional", "Condicional"),
-          covariate.labels = c("Age", "Age²", "Horas Trabajadas",
-                               "Relab: 2", "Relab: 3", "Relab: 4", 
-                               "Relab: 5", "Relab: 6", "Relab: 7",
-                               "Constante"),
-          omit.stat = c("f", "ser"),
-          out = "output/tables/table1_age_income_profile.html")
 
