@@ -52,7 +52,7 @@ cat("Iniciando reproducción de resultados\n")
 cat("Fecha:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n\n")
 
 # ==============================================================================
-# PARTE 1: CARGA Y PREPARACIÓN DE DATOS (COMÚN A TODAS LAS SECCIONES)
+# PARTE 1: CARGA Y PREPARACIÓN DE DATOS (PARA TODAS LAS SECCIONES)
 # ==============================================================================
 
 cat("\n")
@@ -67,7 +67,7 @@ cat("━━━━━━━━━━━━━━━━━━━━━━━━━
 cat("  [2/10] LIMPIEZA Y CONSTRUCCIÓN DE MUESTRA                            \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-source("01_code/02_data_cleaning.R")
+source("01_code/02_data_cleaning_workers.R")
 
 # ==============================================================================
 # PARTE 2: SECTION 1 - AGE-LABOR INCOME PROFILE
@@ -78,7 +78,7 @@ cat("━━━━━━━━━━━━━━━━━━━━━━━━━
 cat("  [3/10] SECTION 1: ESTADÍSTICAS DESCRIPTIVAS                          \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-source("01_code/03_section1_descriptive_stats.R")
+source("01_code/03_age_analysis_descriptive_stats.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
