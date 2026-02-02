@@ -57,14 +57,14 @@ cat("Fecha:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n\n")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [1/10] WEB SCRAPING - GEIH 2018                                      \n")
+cat("   WEB SCRAPING - GEIH 2018                                      \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/01_data_scraping.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [2/10] LIMPIEZA Y CONSTRUCCIÓN DE MUESTRA                            \n")
+cat("  LIMPIEZA Y CONSTRUCCIÓN DE MUESTRA                            \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/02_data_cleaning_workers.R")
@@ -75,24 +75,32 @@ source("01_code/02_data_cleaning_workers.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [3/10] SECTION 1: ESTADÍSTICAS DESCRIPTIVAS                          \n")
+cat("  SECTION 1: ESTADÍSTICAS DESCRIPTIVAS                          \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/03_age_analysis_descriptive_stats.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [4/10] SECTION 1: ESTIMACIÓN PERFIL EDAD-INGRESO                     \n")
+cat("  SECTION 1: ESTIMACIÓN PERFIL EDAD-INGRESO                     \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-source("01_code/04_section1_age_income_models.R")
+source("01_code/04_age_income_models.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [5/10] SECTION 1: BOOTSTRAP PARA IC DE EDAD PICO                     \n")
+cat("   SECTION 1: VISUALIACIÓN DE LOS MODELOS                  \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-source("01_code/05_section1_bootstrap_peak_age.R")
+source("01_code/05_age_income_models_visualization.R")
+
+cat("\n")
+cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+cat("  SECTION 1: RESUMEN DE RESULTADOS                 \n")
+cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
+
+source("01_code/06_age_model_results_sum.R")
+
 
 # ==============================================================================
 # PARTE 3: SECTION 2 - GENDER WAGE GAP
@@ -100,14 +108,14 @@ source("01_code/05_section1_bootstrap_peak_age.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [6/10] SECTION 2: ESTADÍSTICAS DESCRIPTIVAS                          \n")
+cat("   SECTION 2: ESTADÍSTICAS DESCRIPTIVAS                          \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/06_section2_descriptive_stats.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [7/10] SECTION 2: ESTIMACIÓN BRECHA SALARIAL                         \n")
+cat("   SECTION 2: ESTIMACIÓN BRECHA SALARIAL                         \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/07_section2_wage_gap_models.R")
@@ -118,56 +126,21 @@ source("01_code/07_section2_wage_gap_models.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [8/10] SECTION 3: ESTADÍSTICAS DESCRIPTIVAS                          \n")
+cat("  SECTION 3: ESTADÍSTICAS DESCRIPTIVAS                          \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/08_section3_descriptive_stats.R")
 
 cat("\n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [9/10] SECTION 3: MODELOS DE PREDICCIÓN                              \n")
+cat("   SECTION 3: MODELOS DE PREDICCIÓN                              \n")
 cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
 source("01_code/09_section3_prediction_models.R")
 
-# ==============================================================================
-# PARTE 5: GENERACIÓN DE OUTPUTS FINALES
-# ==============================================================================
 
-cat("\n")
-cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-cat("  [10/10] GENERACIÓN DE FIGURAS Y TABLAS FINALES                       \n")
-cat("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-
-source("01_code/10_generate_outputs.R")
 
 # ==============================================================================
-# RESUMEN FINAL
+#  FINAL
 # ==============================================================================
-
-end_time <- Sys.time()
-elapsed <- round(difftime(end_time, start_time, units = "mins"), 2)
-
-cat("\n")
-cat("╔══════════════════════════════════════════════════════════════════════╗\n")
-cat("║                    REPRODUCCIÓN COMPLETADA                           ║\n")
-cat("╚══════════════════════════════════════════════════════════════════════╝\n")
-cat("\n")
-cat(sprintf("  Tiempo total de ejecución: %s minutos\n", elapsed))
-cat("\n")
-cat("  OUTPUTS GENERADOS:\n")
-cat("  ──────────────────────────────────────────────────────────────────────\n")
-cat("  Figuras (02_outputs/figures/):\n")
-cat("    • section1_age_income_profile_unconditional.png\n")
-cat("    • section1_age_income_profile_comparison.png\n")
-cat("    • section1_bootstrap_peak_age.png\n")
-cat("    • section2_wage_gap_by_age.png\n")
-cat("    • section3_prediction_performance.png\n")
-cat("\n")
-cat("  Tablas (02_outputs/tables/):\n")
-cat("    • section1_age_income_regression.tex\n")
-cat("    • section2_wage_gap_regression.tex\n")
-cat("    • section3_model_comparison.tex\n")
-cat("\n")
-cat("══════════════════════════════════════════════════════════════════════\n")
 
