@@ -139,12 +139,13 @@ Los datos provienen de la Medición de Pobreza Monetaria y Desigualdad 2018 del 
 ```
 
 log(w) = β₁ + β₂·Age + β₃·Age² + u \`\`\`
+```
 
 2.  **Modelo Condicional:**
 
-    ```         
+```         
     log(w) = β₁ + β₂·Age + β₃·Age² + β₄·Hours + β₅·Relab + u
-    ```
+ ```
 
 **Edad Pico:** Se calcula como `Age* = -β₂ / (2·β₃)` a partir de la condición de primer orden.
 
