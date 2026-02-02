@@ -46,8 +46,6 @@ Este script maestro ejecuta secuencialmente:
 6.  Bootstrap para intervalos de confianza
 7.  Generación de todas las figuras y tablas
 
-**Tiempo estimado de ejecución:** 10-15 minutos
-
 ------------------------------------------------------------------------
 
 ## Estructura del Repositorio
@@ -87,7 +85,10 @@ BDML-PS01/
 │   ├── figures/                             # Gráficos (.png)
 │   │
 │   └── tables/                              # Tablas (.tex, .html, .csv)
----
+
+
+```  
+------------------------------------------------------------------------
 ## Datos
 
 ### Fuente
