@@ -31,9 +31,9 @@ require(pacman)
 p_load(tidyverse, boot, stargazer, ggplot2, scales, gridExtra, knitr, kableExtra, rvest, httr)
 
 # Crear carpetas
-dir.create("output", showWarnings = FALSE)
-dir.create("output/tables", showWarnings = FALSE)
-dir.create("output/figures", showWarnings = FALSE)
+dir.create("02_output", showWarnings = FALSE)
+dir.create("02_output/tables", showWarnings = FALSE)
+dir.create("02_output/figures", showWarnings = FALSE)
 
 # Tema para gráficos
 theme_set(theme_minimal(base_size = 12))
