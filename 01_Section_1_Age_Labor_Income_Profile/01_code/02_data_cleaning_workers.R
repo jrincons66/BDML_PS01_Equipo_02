@@ -17,29 +17,70 @@
 # - Mayores de 18 años
 # - Ingreso mensual positivo (y_total_m > 0)
 
+
 geih_analysis <- geih_raw %>%
   # Convertir a numérico si es necesario
   mutate(
     age = as.numeric(age),
     y_total_m = as.numeric(y_total_m),
     totalHoursWorked = as.numeric(totalHoursWorked),
-    relab = as.factor(relab)
+    usual_hours = as.numeric(hoursWorkUsual),
+    relab = as.factor(relab),
+    tenure = p6426,        
+    educ = as.factor(maxEducLevel),      
+    indus = as.factor(oficio),
+    firm_size = as.factor(sizeFirm),
+    chunk_id = as.numeric(chunk_id),
+    formal = as.factor(formal),
+    female = if_else(sex == 1, 0, 1) 
   ) %>%
   # Agregamos los criterios del Problem Set
+  drop_na(y_total_m, totalHoursWorked, relab, sex, age, educ, usual_hours, tenure) %>%
   filter(
-    age >= 18,                    # Mayores de 18
-    !is.na(y_total_m),            # Ingreso no missing
-    y_total_m > 0,                # Ingreso positivo (empleados)
-    !is.na(totalHoursWorked),     # Horas no missing
-    totalHoursWorked > 0,         # Horas positivas
-    !is.na(relab)                 # Tipo empleo no missing
+    age >= 18,
+    y_total_m > 0,
+    totalHoursWorked > 0,
+    relab %in% c(1,2)
   ) %>%
   # Crear variables para el modelo
   mutate(
-    log_income = log(y_total_m),  # Variable dependiente
-    age2 = age^2                   # Término cuadrático
+    log_income = log(y_total_m),
+    age2 = age^2
+  )%>%
+  select(sex, 
+         female,
+         y_total_m,
+         log_income,
+         age,
+         age2,
+         tenure,
+         educ,
+         indus, 
+         totalHoursWorked,
+         usual_hours,
+         relab,
+         formal,
+         firm_size,
+         chunk_id,
+         directorio
   )
 
+
 cat("Muestra de análisis:", nrow(geih_analysis), "observaciones\n")
-cat("Aplicamos los siguientes criterios:1. Mayores de 18 , 2.Ingreso positivo (empleados), 3. Horas positivas ")
+cat("Aplicamos los siguientes criterios:1. Mayores de 18 , 2.Ingreso superior a 120000 (Solo tomamos empleados), 3. Horas positivas ")
+
+# ------------------------------------------------------------------------------
+# 2 Limpieza de datos anómalos para variable dependiente
+# ------------------------------------------------------------------------------
+
+up <- quantile(geih_analysis$y_total_m, 0.99, na.rm = T)
+down <- quantile(geih_analysis$y_total_m, 0.01, na.rm = T)
+
+# Eliminación de percentiles más extremos del ingreso
+
+geih_analysis <- geih_analysis %>%
+  filter(
+    y_total_m >= quantile(y_total_m, 0.01, na.rm = TRUE),
+    y_total_m <= quantile(y_total_m, 0.99, na.rm = TRUE)
+  )
 
