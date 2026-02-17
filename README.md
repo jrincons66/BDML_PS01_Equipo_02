@@ -8,11 +8,12 @@
 
 ## Autores
 
-| Nombre           | Código    |
-|------------------|-----------|
-| Jose A. Rincon S | 202013328 |
-| Juan C. Riaño    | 202013305 |
-| Lucas Rodriguez  | 20.....   |
+| Nombre             | Código    |
+|--------------------|-----------|
+| Jose A. Rincon S   | 202013328 |
+| Juan C. Riaño      | 202013305 |
+| Lucas Rodriguez    | 20.....   |
+| Santiago González  | 202110234 |
 
 ------------------------------------------------------------------------
 
