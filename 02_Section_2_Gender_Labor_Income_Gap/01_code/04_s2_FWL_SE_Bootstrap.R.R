@@ -16,7 +16,7 @@ boot_FWL <- function(data, indices) {
   
   d$resid_female_con=lm(female~age+age2+educ+usual_hours+tenure+indus+firm_size,data=d)$residuals
   
-  d$resid_salario_con=lm(log_income~age+age2+educ+usual_hours+tenure+indus+firm_size, data=d)$residuals
+  d$resid_salario_con=lm(log_income~age+age2+educ+usual_hours+tenure+indus+firm_size+indus, data=d)$residuals
 
   model_conditional_con <- lm(resid_salario_con ~ resid_female_con, data = d)
   
