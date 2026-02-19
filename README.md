@@ -24,9 +24,8 @@ Este repositorio contiene el análisis del **Problem Set 1** del curso de Big Da
 El análisis se divide en tres secciones:
 
 1.  **Section 1: Age-Labor Income Profile** - Estimación del perfil edad-ingreso para testear las predicciones de la teoría del capital humano
-2.  **Section 2: Gender Wage Gap** - Medición y descomposición de la brecha salarial de género
-3.  **Section 3: Income Prediction** - Modelos de predicción de ingreso para fines de fiscalización tributaria
-
+2.  **Section 2: Gender Wage Gap** - Medición y descomposición de la brecha salarial de género via FWL
+3.  **Section 3: Income Prediction** - Modelos de predicción de ingreso laboral
 ------------------------------------------------------------------------
 
 ## Instrucciones de Replicación
@@ -52,40 +51,45 @@ Este script maestro ejecuta secuencialmente:
 ## Estructura del Repositorio
 
 ```         
-BDML-PS01/
+grupo_1_BDML/
 │
-├── README.md                                # Este archivo
-├── .gitignore                               # Archivos ignorados por Git
+├── README.md
+├── .gitignore
+├── 00_rundirectory.R                        # Script maestro
+├── grupo_1_BDML.Rproj                       # Proyecto de RStudio
 │
-├── 01_code/                                 # Todo el código del proyecto
-│   │
-│   ├── 00_rundirectory.R                    # Script maestro y cnfiguración inicial
-│   │
-│   │   # --- Carga y preparación de datos ---
-│   ├── 01_data_scraping.R                   # Web scraping de GEIH 2018
-│   ├── 02_data_cleaning?workers.R           # Limpieza y construcción de muestra
-│   │
-│   │   # --- Section 1: Age-Labor Income Profile ---
-│   ├── 03_age_analysis_descriptive_stats.R  # Estadísticas descriptivas
-│   ├── 04_age_income_models.R               # Modelos incondicional y condicional y Bootstrap para IC de edad pico
-│   ├── 05_age_income_models_visualization.R # Visualización de resultado de los modelos
-│   ├── 06_age_model_results_sum.R           # Resumen de los resultados obtenidos
-│   │
-│   │   # --- Section 2: Gender Wage Gap ---
-│   ├── 06_section2_descriptive_stats.R      # Estadísticas por género
-│   ├── 07_section2_wage_gap_models.R        # Modelos de brecha salarial
-│   │
-│   │   # --- Section 3: Income Prediction ---
-│   ├── 08_section3_descriptive_stats.R      # Estadísticas para predicción
-│   ├── 09_section3_prediction_models.R      # Modelos de machine learning
-│   │
-│   │   # --- Outputs finales ---
-│   └── 10_generate_outputs.R                # Genera figuras y tablas finales
+├── 01_Section_1_Age_Labor_Income/           # SECTION 1: Age-Income Profile
+│   ├── 01_code/
+│   │   ├── 01_S1_data_scraping.R            # Web scraping GEIH 2018
+│   │   ├── 02_S1_data_cleaning_workers.R    # Limpieza y construcción de muestra
+│   │   ├── 03_S1_age_analysis_descriptive.R # Estadísticas descriptivas
+│   │   ├── 04_S1_age_income_models.R        # Modelos y bootstrap edad pico
+│   │   ├── 05_S1_age_income_models_vis.R    # Visualizaciones
+│   │   └── 06_S1_age_model_results_sum.R    # Resumen de resultados
+│   └── 02_output/
+│       ├── figures/
+│       └── tables/
 │
-├── 02_outputs/                              # Resultados generados automáticamente
-│   ├── figures/                             # Gráficos (.png)
-│   │
-│   └── tables/                              # Tablas (.tex, .html, .csv)
+├── 02_Section_2_Gender_Labor_Income/        # SECTION 2: Gender Wage Gap
+│   ├── 01_code/
+│   │   ├── 01_s2_Descriptive_Statistics.R   # Estadísticas por género
+│   │   ├── 02_S2_Unconditional_Model.R      # Modelo incondicional
+│   │   ├── 03_s2_FWL_Model.R                # Modelos FWL (con/sin industria)
+│   │   ├── 04_s2_FWL_SE_Bootstrap.R         # Bootstrap para errores estándar
+│   │   ├── 05_s2_FWL_Presentacion_Resul.R   # Tabla de resultados
+│   │   └── 06_s2_Diferencia_Edades.R        # Perfiles edad-ingreso por género
+│   └── 02_output/
+│       ├── figures/
+│       └── tables/
+│
+└── 03_Section_3_Predicting_Income/          # SECTION 3: Income Prediction
+    ├── 01_code/
+    │   ├── 01_S3_Train_Test_Split.R         # División training/testing
+    │   ├── 02_S3_Baseline_Models.R          # Modelos baseline (Secciones 1 y 2)
+    │   └── 03_S3_Extended_Models.R          # Nuevas especificaciones (5+ modelos)
+    └── 02_output/
+        ├── figures/
+        └── tables/
 
 
 ```  
@@ -107,6 +111,8 @@ Los datos provienen de la Medición de Pobreza Monetaria y Desigualdad 2018 del 
 | `totalHoursWorked` | Horas trabajadas por semana |
 | `sex` | Sexo (1 = Hombre, 2 = Mujer) |
 | `relab` | Tipo de relación laboral (1-7) |
+| `edu` | Nivel educativo de los individuos |
+| `SizeFirm` | Tamaño de la firma empleadora |
 
 ### Construcción de la Muestra
 
@@ -156,9 +162,48 @@ log(w) = β₁ + β₂·Age + β₃·Age² + u \`\`\`
 
 **Objetivo:** Medir la brecha salarial de género y analizar cómo cambia al controlar por características observables.
 
+1. **Modelo Incondicional:**
+```
+log(w) = b0 + b1*female + u
+```
+2. **Modelo Condicional (FWL) con industrias:**
+```
+log(w) = b0 + b1*female + b2*Age + b3*Age^2 + b4*educ + b5*Hours 
+         + b6*tenure + b7*industry + b8*firm_size + u
+```
+3. **Modelo Condicional (FWL) sin industrias:**
+```
+log(w) = b0 + b1*female + b2*Age + b3*Age^2 + b4*educ + b5*Hours 
+         + b6*tenure + b7*firm_size + u
+```
+**Inferencia:** Bootstrap (B = 1000) para errores estándar de los coeficientes FWL.
+
+
 ### Section 3: Income Prediction
 
 **Objetivo:** Construir modelos predictivos de ingreso para identificar individuos con posible subdeclaración tributaria.
+**División de datos:**
+
+- Training: 70% (o Chunks 1-7)
+- Testing: 30% (o Chunks 8-10)
+
+**Modelos Baseline:**
+
+- Modelos de Sección 1 y 2
+
+**Nuevas Especificaciones (5+):**
+
+1. Retornos a educación heterogéneos por género
+2. Perfil edad-ingreso heterogéneo por género (ciclo de vida)
+3. No-linealidad en tenure con heterogeneidad por formalidad
+4. Estructura de horas (usuales vs efectivas)
+5. Interacciones ocupación con características
+
+Evaluación:
+
+- RMSE out-of-sample
+- LOOCV para modelo seleccionado
+- Análisis de influencia via FWL
 
 ------------------------------------------------------------------------
 
@@ -184,6 +229,8 @@ Los paquetes se instalan y cargan automáticamente mediante `pacman::p_load()`:
 -   Sarmiento-Barbieri, I. (2026). *Big Data and Machine Learning for Applied Economics*. Universidad de los Andes.
 -   DANE. *Gran Encuesta Integrada de Hogares (GEIH) 2018*.
 -   Mincer, J. (1974). *Schooling, Experience, and Earnings*. NBER.
+-   Blau, F. & Kahn, L. (2017). The Gender Wage Gap. Journal of Economic Literature.
+-   Kleven, H. et al. (2019). Child Penalties Across Countries. AER Insights.
 
 ------------------------------------------------------------------------
 
