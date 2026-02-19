@@ -42,7 +42,7 @@ geih_analysis <- geih_raw %>%
     totalHoursWorked > 0,
     relab %in% c(1,2)
   ) %>%
-  # Crear variables para el modelo
+  # Crear variables necesarias
   mutate(
     log_income = log(y_total_m),
     age2 = age^2
@@ -92,5 +92,3 @@ geih_analysis <- geih_analysis %>%
   )
 
 ## Limpieza de environment
-
-rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))

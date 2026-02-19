@@ -25,5 +25,5 @@ beta_S2unc <- coef(s2model_unconditional)["female"]
 
 
 cat("\n=== MODELO INCONDICIONAL ===\n")
-cat("Coef. female:   ", round(beta_S2Unc, 5), "\n")
+cat("Coef. female:   ", round(beta_S2unc, 5), "\n")
 cat("R² ajustado: ", round(summary(s2model_unconditional)$adj.r.squared, 4), "\n")

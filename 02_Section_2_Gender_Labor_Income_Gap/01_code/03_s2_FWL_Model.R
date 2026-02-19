@@ -48,4 +48,4 @@ dif_uncond <- (exp(beta_S2unc) - 1) * salario_ref
 dif_con    <- (exp(beta_S2con) - 1) * salario_ref
 dif_sin    <- (exp(beta_S2sin) - 1) * salario_ref
 
-stargazer(s2model_unconditional, s2model_conditional_indus,s2model_conditional_sin, type="text", digits=7)
+stargazer(s2model_unconditional, s2model_conditional_con,s2model_conditional_sin, type="text", digits=7)

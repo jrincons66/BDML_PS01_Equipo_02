@@ -30,6 +30,7 @@ set.seed(6666)
 # Paquetes
 require(pacman)
 p_load(tidyverse, boot, stargazer, ggplot2, scales, gridExtra, knitr, kableExtra, rvest, httr,here,modelsummary,MASS)
+select <- dplyr::select
 
 # Tema para gráficos
 theme_set(theme_minimal(base_size = 12))
@@ -124,7 +125,7 @@ source("01_code/06_S1_age_model_results_sum.R")
 #  EJERCICIO 2. Gender Income Wage Gap
 # ==============================================================================
 
-rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent","select")))
 
 # Working directory
 
@@ -177,7 +178,7 @@ source("01_code/06_s2_Diferencia_Edades.R")
 # EJERCICIO 3. Predicting Income
 # ==============================================================================
 
-rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent","select")))
 
 # Working directory
 
@@ -227,9 +228,8 @@ source("01_code/05_S3_LOOCV_Error.R")
 source("01_code/06_S3_Leverage_Analysis.R")
 
 # ==============================================================================
-# PARTE 7: SECTION 3 - 
+# PARTE 7: SECTION 3 - Errores de predicción 
 # ==============================================================================
 
-select <- dplyr::select
 source("01_code/07_S3_Prediction_Errors.R")
 
