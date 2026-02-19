@@ -57,6 +57,7 @@ new_vars <- function(df) {
     age4        = age^4,
     age_female  = age  * female,
     age2_female = age2 * female
+    tenure2 = tenure^2
   )
 }
 
@@ -73,46 +74,88 @@ for (df_name in c("geih_train", "geih_validation")) {
 #   - motivacion:  justificación económica (COMPLETAR)
 
 extended_specs <- list(
-  
+
   # ----------------------------------------------------------------------------
-  # E1: [ESPECIFICACIÓN 1]
-  # Motivación económica: ...
+  # E1: Retornos a educación heterogéneos por género
+  #
+  # Motivación económica: La educación no “paga” igual para hombres y mujeres si hay
+  #   segmentación ocupacional, discriminación en promociones, o diferencias en campo
+  #   de estudio/ocupación condicionadas a educación. La interacción female:educ permite
+  #   que el “premium” educativo sea distinto por género, capturando heterogeneidad
+  #   sistemática en retornos y no solo un shift promedio.
   # ----------------------------------------------------------------------------
   E1 = list(
-    formula    = log_income ~ age + age2 + age3,   # COMPLETAR
-    label      = "Polinomio cúbico en edad",        # COMPLETAR
-    motivacion = "..."                              # COMPLETAR
+    formula    = log_income ~ age + age2 + female + educ + female:educ +
+      usual_hours + tenure + firm_size + indus,
+    label      = "Retornos a educación por género (female × educ)",
+    motivacion = "Permite que los retornos a la educación difieran por género 
+    (female×educ), capturando segmentación ocupacional y posibles diferencias en
+    promociones o tipos de ocupación. Esto introduce heterogeneidad en retornos 
+    y puede mejorar la predicción al no imponer un efecto uniforme de educ para 
+    hombres y mujeres."
   ),
-  
+
   # ----------------------------------------------------------------------------
-  # E2: [ESPECIFICACIÓN 2]
-  # Motivación económica: ...
+  # E2: Perfil edad–ingreso distinto por género (ciclo de vida heterogéneo)
+  #
+  # Motivación económica: La brecha salarial no tiene por qué ser constante a lo
+  #   largo de la vida laboral. Puede ampliarse con la edad debido a interrupciones
+  #   laborales, penalizaciones por maternidad o techos de cristal, o reducirse en
+  #   etapas tempranas de la carrera. Las interacciones female×age y female×age2
+  #   permiten que la forma del perfil edad–ingreso difiera por género.
   # ----------------------------------------------------------------------------
   E2 = list(
-    formula    = log_income ~ age + age2 + age3 + age4,  # COMPLETAR
-    label      = "Polinomio cuártico en edad",            # COMPLETAR
-    motivacion = "..."                                    # COMPLETAR
+    formula    = log_income ~ age + age2 + female + female:age + female:age2 +
+      usual_hours + tenure + educ + firm_size + indus,
+    label      = "Perfil edad distinto por género (female × age, age²)",
+    motivacion = "Permite que el perfil del ciclo de vida difiera por género, 
+    capturando posibles divergencias en trayectorias laborales. Esto reduce sesgos 
+    derivados de promediar perfiles distintos y puede mejorar la predicción al 
+    permitir pendientes diferenciadas en edad."
   ),
-  
+
   # ----------------------------------------------------------------------------
-  # E3: [ESPECIFICACIÓN 3]
-  # Motivación económica: ...
+  # E3: No linealidad en experiencia (tenure²) y heterogeneidad por formalidad
+  #
+  # Motivación económica: Los retornos a la experiencia en el empleo suelen ser
+  #   decrecientes: al inicio se acumula capital humano específico y el salario
+  #   aumenta rápidamente, pero luego el crecimiento se estabiliza. Además, en 
+  #   el sector formal la experiencia puede traducirse más en aumentos salariales
+  #   (escalas, promociones, negociación colectiva) que en el informal. La inclusión
+  #   de tenure² captura la curvatura, mientras que formal × tenure permite que la
+  #   pendiente difiera según el régimen institucional.
   # ----------------------------------------------------------------------------
   E3 = list(
-    formula    = log_income ~ age + age2 + female + age_female + age2_female +
-      educ + usual_hours + tenure + firm_size,  # COMPLETAR
-    label      = "Perfiles edad-ingreso diferenciados por género",       # COMPLETAR
-    motivacion = "..."                                                   # COMPLETAR
+    formula    = log_income ~ age + age2 + educ + usual_hours + tenure + tenure2 +
+      formal + formal:tenure + firm_size + indus,
+    label      = "Tenure no lineal y heterogeneidad por formalidad",
+    motivacion = "Introduce rendimientos decrecientes a la experiencia mediante 
+    tenure² y permite que el efecto de la experiencia difiera entre el sector formal 
+    e informal. Esto captura curvatura y diferencias institucionales en la formación 
+    de ingresos, mejorando la capacidad predictiva."
   ),
-  
+
   # ----------------------------------------------------------------------------
-  # E4: [ESPECIFICACIÓN 4]
-  # Motivación económica: ...
+  # E4: Heterogeneidad del gap de género por industria
+  #
+  # Motivación económica: La brecha salarial de género no es homogénea entre
+  #   sectores productivos. Diferencias en composición ocupacional, normas
+  #   institucionales, cultura organizacional, niveles de formalización y
+  #   mecanismos de promoción pueden hacer que el efecto del género sobre el
+  #   ingreso sea más pronunciado en algunas industrias que en otras. La
+  #   interacción indus×female permite que el diferencial salarial asociado al
+  #   género varíe por sector, capturando segmentación horizontal del mercado
+  #   laboral y posibles diferencias en discriminación o retornos a habilidades.
   # ----------------------------------------------------------------------------
   E4 = list(
-    formula    = log_income ~ age + age2,  # COMPLETAR
-    label      = "...",                    # COMPLETAR
-    motivacion = "..."                     # COMPLETAR
+    formula    = log_income ~ age + age2 + educ + tenure + firm_size +
+      indus + indus:female + usual_hours,
+    label      = "Industria × género (heterogeneidad sectorial del gap)",
+    motivacion = "Permite que el efecto del género sobre el ingreso difiera entre 
+    industrias, capturando segmentación sectorial, diferencias en estructuras 
+    salariales y posibles variaciones en normas laborales o promoción interna. 
+    Esto introduce heterogeneidad estructural que puede reducir errores sistemáticos 
+    de predicción."
   ),
   
   # ----------------------------------------------------------------------------
@@ -128,6 +171,7 @@ extended_specs <- list(
   # ----------------------------------------------------------------------------
   # Agregar especificaciones adicionales aquí si se desea (E6, E7, ...)
   # ----------------------------------------------------------------------------
+
 )
 
 # ==============================================================================
