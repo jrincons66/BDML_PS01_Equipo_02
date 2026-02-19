@@ -53,10 +53,6 @@ cat(sprintf("Validation set:  %s observaciones (chunks 8-10)\n\n",
 
 new_vars <- function(df) {
   df %>% mutate(
-    age3        = age^3,
-    age4        = age^4,
-    age_female  = age  * female,
-    age2_female = age2 * female
     tenure2 = tenure^2
   )
 }
