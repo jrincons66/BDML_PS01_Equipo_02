@@ -63,6 +63,13 @@ geih_analysis <- geih_raw %>%
          firm_size,
          chunk_id,
          directorio
+  ) %>%
+  mutate(
+    relab     = factor(relab,     levels = levels(relab)),
+    educ      = factor(educ,      levels = levels(educ)),
+    indus     = factor(indus,     levels = levels(indus)),
+    firm_size = factor(firm_size, levels = levels(firm_size)),
+    formal    = factor(formal,    levels = levels(formal))
   )
 
 
