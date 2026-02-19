@@ -125,7 +125,7 @@ geih_analysis <- geih_analysis %>%
 geih_analysis <- geih_analysis %>%
   mutate(
     tenure2 = tenure^2
-    # relab_group = ...  # si lo van a usar (ver abajo)
+    # relab_group = ...  # si nos decidieramos por usarlo
   )
 
 M0 <- c("age", "age2", "female", "educ", "tenure", "usual_hours", "firm_size", "indus")
