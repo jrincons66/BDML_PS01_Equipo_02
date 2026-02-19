@@ -20,7 +20,7 @@ geih_analysis <- geih_analysis %>%
     `Salario Mensual`    = y_total_m,
     `Edad`               = age,
     `Horas Trabajadas`   = totalHoursWorked,
-    `Género`             = if_else(female == 1, "Mujer", "Hombre")
+    Género             = if_else(female == 1, "Mujer", "Hombre")
   )
 
 datasummary(
