@@ -85,7 +85,7 @@ extended_specs <- list(
       usual_hours + tenure + firm_size + indus,
     label      = "Retornos a educación por género (female × educ)",
     motivacion = "Permite que los retornos a la educación difieran por género 
-    (female×educ), capturando segmentación ocupacional y posibles diferencias en
+    (female × educ), capturando segmentación ocupacional y posibles diferencias en
     promociones o tipos de ocupación. Esto introduce heterogeneidad en retornos 
     y puede mejorar la predicción al no imponer un efecto uniforme de educ para 
     hombres y mujeres."
@@ -172,7 +172,7 @@ extended_specs <- list(
     industria/tamaño de firma. Esta flexibilidad reduce el riesgo de misspecification y puede 
     mejorar RMSE out-of-sample, aunque con menor interpretabilidad y potencial riesgo de 
     sobreajuste."
-  ),
+  )
 
 )
 

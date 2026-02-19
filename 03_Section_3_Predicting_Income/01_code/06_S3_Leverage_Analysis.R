@@ -45,6 +45,12 @@ if (!exists("loo_errors") | !exists("hat_values")) {
        Asegúrese de haber corrido 05_s3_LOOCV.R primero.")
 }
 
+# Colores (definidos en 00_rundirectory.R; se inicializan aquí si el script
+# corre de forma aislada)
+if (!exists("col_primary"))   col_primary   <- "#1E3A5F"
+if (!exists("col_secondary")) col_secondary <- "#C41E3A"
+if (!exists("col_accent"))    col_accent    <- "#4A90A4"
+
 cat(sprintf("Modelo: %s\n", best_model_name))
 cat(sprintf("Observaciones en training: %s\n\n",
             format(nrow(geih_train), big.mark = ",")))
@@ -94,15 +100,19 @@ X_std_masked <- X_std[mask, ]
 n_obs        <- nrow(X_std_masked)
 
 # (X'X)^{-1} sobre la matriz estandarizada
-XtX_inv <- solve(t(X_std_masked) %*% X_std_masked)
+# Se usa la pseudo-inversa de Moore-Penrose (MASS::ginv) en lugar de solve()
+# para manejar el caso en que X'X sea singular o casi singular. Esto ocurre
+# cuando hay dummies con muy pocas observaciones en el training, generando
+# columnas linealmente dependientes tras la estandarización.
+XtX_inv <- MASS::ginv(t(X_std_masked) %*% X_std_masked)
 
 # Calcular D_i para cada observación
 influence_scores <- numeric(n_obs)
 
 for (i in seq_len(n_obs)) {
-  xi        <- X_std_masked[i, ]                    # Vector fila i
-  delta_beta <- as.numeric(XtX_inv %*% xi) * loo_errors[i]  # Cambio en β
-  influence_scores[i] <- sqrt(sum(delta_beta^2))    # Norma L2
+  xi         <- X_std_masked[i, ]                           # Vector fila i
+  delta_beta <- as.numeric(XtX_inv %*% xi) * loo_errors[i] # Cambio en β
+  influence_scores[i] <- sqrt(sum(delta_beta^2))            # Norma L2
 }
 
 cat(sprintf("  Calculadas %s medidas de influencia\n\n",

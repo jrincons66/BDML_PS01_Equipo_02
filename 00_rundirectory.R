@@ -29,7 +29,7 @@ set.seed(6666)
 
 # Paquetes
 require(pacman)
-p_load(tidyverse, boot, stargazer, ggplot2, scales, gridExtra, knitr, kableExtra, rvest, httr,here,modelsummary)
+p_load(tidyverse, boot, stargazer, ggplot2, scales, gridExtra, knitr, kableExtra, rvest, httr,here,modelsummary,MASS)
 
 # Tema para gráficos
 theme_set(theme_minimal(base_size = 12))
@@ -226,5 +226,6 @@ source("01_code/06_S3_Leverage_Analysis.R")
 # PARTE 7: SECTION 3 - 
 # ==============================================================================
 
+select <- dplyr::select
 source("01_code/07_S3_Prediction_Errors.R")
 

@@ -72,9 +72,9 @@ rmse_val <- sqrt(mean(errors_df$error_sq))
 cat(sprintf("  Observaciones con predicción válida: %s\n",
             format(nrow(errors_df), big.mark = ",")))
 cat(sprintf("  RMSE validación:                     %.4f\n", rmse_val))
-cat(sprintf("  % obs sub-predichas (error > 0):    %.1f%%\n",
+cat(sprintf("  %% obs sub-predichas (error > 0):    %.1f%%\n",
             100 * mean(errors_df$sub_pred)))
-cat(sprintf("  % obs sobre-predichas (error < 0):  %.1f%%\n",
+cat(sprintf("  %% obs sobre-predichas (error < 0):  %.1f%%\n",
             100 * mean(errors_df$sobre_pred)))
 
 # ==============================================================================

@@ -159,16 +159,3 @@ ggsave("02_output/figures/01_s3_rmse_comparison.png",
        plot_rmse, width = 10, height = 6, dpi = 300)
 
 cat("\n  Figura guardada: 02_output/figures/01_s3_rmse_comparison.png\n")
-
-# ==============================================================================
-# 5. RESUMEN FINAL
-# ==============================================================================
-
-cat("\n================================================================\n")
-cat("   OBJETOS GENERADOS PARA SCRIPTS SIGUIENTES:                   \n")
-cat("================================================================\n")
-cat(sprintf("  best_model        → Objeto lm() del modelo seleccionado (%s)\n",
-            best_model_name))
-cat(sprintf("  best_model_name   → Nombre del modelo seleccionado\n"))
-cat(sprintf("  all_results_sorted → Tabla completa ordenada por RMSE\n"))
-cat("================================================================\n")

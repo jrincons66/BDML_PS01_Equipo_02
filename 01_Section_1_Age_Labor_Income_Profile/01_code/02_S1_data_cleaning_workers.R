@@ -93,4 +93,4 @@ geih_analysis <- geih_analysis %>%
 
 ## Limpieza de environment
 
-rm(list = setdiff(ls(), c("geih_raw", "geih_analysis")))
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))
