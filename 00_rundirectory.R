@@ -199,10 +199,10 @@ source("01_code/01_S3_Train_Test_Split.R")
 source("01_code/02_S3_Baseline_Models.R")
 
 # ==============================================================================
-# PARTE 3: SECTION 3 - 
+# PARTE 3: SECTION 3 - Estimación de nuevos modelos
 # ==============================================================================
 
-source("01_code/01_Train_Test_Split.R")
+source("01_code/03_S3_Extended_Models.R")
 
 # ==============================================================================
 # PARTE 4: SECTION 3 - 

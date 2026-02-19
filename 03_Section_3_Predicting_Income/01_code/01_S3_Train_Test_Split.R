@@ -14,15 +14,17 @@
 ##     - Training set:    Chunks 1–7  (estimación de modelos)
 ##     - Validation set:  Chunks 8–10 (evaluación out-of-sample)
 ##
-##   IMPORTANTE: Este cuaderno debe correrse DESPUÉS de 02_data_cleaning_workers.R
-##   y ANTES de cualquier script de estimación de la Sección 3. Todos los 
-##   cuadernos posteriores de esta sección consumen los objetos que se generan 
-##   aquí: geih_train y geih_validation.
+##   SOLUCIÓN AL PROBLEMA DE NIVELES DE FACTORES:
+##   Al filtrar el training set, algunos niveles de factores (ej: categorías 
+##   de indus) pueden quedar sin observaciones. lm() los descarta internamente,
+##   pero predict() falla si los encuentra en el validation set ("factor has 
+##   new levels"). 
 ##
-##   La división se basa en chunk_id (variable creada en el scraping), lo que
-##   garantiza que la separación sea determinística y reproducible sin depender
-##   de aleatorización. Esto refleja el diseño del Problem Set, donde los chunks
-##   8–10 actúan como un hold-out real, nunca visto durante la estimación.
+##   La solución es:
+##     1. Aplicar droplevels() al training → elimina niveles vacíos
+##     2. Alinear los niveles del validation con los del training
+##   Observaciones del validation con niveles no vistos en training quedan
+##   como NA al predecir y se excluyen del cálculo de RMSE.
 
 # ==============================================================================
 # 1. VERIFICACIÓN DE PREREQUISITOS
@@ -33,34 +35,41 @@ cat("================================================================\n")
 cat("   SECTION 3: DIVISIÓN TRAIN / VALIDATION                       \n")
 cat("================================================================\n\n")
 
-# Verificar que geih_analysis existe y tiene chunk_id
 if (!exists("geih_analysis")) {
   stop("ERROR: El objeto 'geih_analysis' no existe. 
        Asegúrese de haber corrido 02_data_cleaning_workers.R primero.")
 }
 
-if (!"chunk_id" %in% names(geih_analysis)) {
-  stop("ERROR: La variable 'chunk_id' no está en geih_analysis. 
-       Verifique el script de limpieza.")
-}
-
-cat("Dataset de entrada: geih_analysis\n")
+cat(sprintf("Dataset de entrada: geih_analysis\n"))
 cat(sprintf("  Observaciones totales: %s\n", format(nrow(geih_analysis), big.mark = ",")))
-cat(sprintf("  Chunks disponibles:    %s\n", 
+cat(sprintf("  Chunks disponibles:    %s\n",
             paste(sort(unique(geih_analysis$chunk_id)), collapse = ", ")))
 
 # ==============================================================================
 # 2. DIVISIÓN DE LA MUESTRA
 # ==============================================================================
 
-# Training:   chunks 1–7  → estimación de todos los modelos
-# Validation: chunks 8–10 → evaluación out-of-sample (RMSE)
+# Training: chunks 1-7
+# droplevels() elimina niveles de factores sin observaciones en training,
+# que son los que causan el error "factor has new levels" en predict().
 
 geih_train <- geih_analysis %>%
-  filter(chunk_id %in% 1:7)
+  filter(chunk_id %in% 1:7) %>%
+  droplevels()
+
+# Validation: chunks 8-10
+# Los factores se re-definen usando los niveles del training.
+# Observaciones con niveles no vistos en training quedan como NA al predecir.
+
+factor_vars <- c("relab", "educ", "indus", "firm_size", "formal")
 
 geih_validation <- geih_analysis %>%
   filter(chunk_id %in% 8:10)
+
+for (v in factor_vars) {
+  geih_validation[[v]] <- factor(geih_validation[[v]],
+                                 levels = levels(geih_train[[v]]))
+}
 
 # ==============================================================================
 # 3. VERIFICACIÓN DE LA DIVISIÓN
@@ -76,49 +85,67 @@ cat(sprintf("Validation set (chunks 8–10):  %s observaciones  (%.1f%%)\n",
             format(nrow(geih_validation), big.mark = ","),
             100 * nrow(geih_validation) / nrow(geih_analysis)))
 
-# Confirmación de que la unión es exactamente igual al total
-n_total_check <- nrow(geih_train) + nrow(geih_validation)
-if (n_total_check == nrow(geih_analysis)) {
-  cat(sprintf("\n✓ Verificación OK: %s + %s = %s (sin pérdida de observaciones)\n",
+# Sin pérdida de observaciones
+n_check <- nrow(geih_train) + nrow(geih_validation)
+if (n_check == nrow(geih_analysis)) {
+  cat(sprintf("\n✓ Sin pérdida de observaciones: %s + %s = %s\n",
               format(nrow(geih_train), big.mark = ","),
               format(nrow(geih_validation), big.mark = ","),
               format(nrow(geih_analysis), big.mark = ",")))
 } else {
-  warning(sprintf("✗ Advertencia: La suma no coincide. Revisar chunk_id.
-                  Total esperado: %d | Total obtenido: %d",
-                  nrow(geih_analysis), n_total_check))
+  warning("✗ La suma no coincide. Revisar chunk_id.")
 }
 
-# Confirmar que no hay superposición entre conjuntos
-chunks_train <- unique(geih_train$chunk_id)
-chunks_val   <- unique(geih_validation$chunk_id)
-
-if (length(intersect(chunks_train, chunks_val)) == 0) {
+# Sin superposición de chunks
+if (length(intersect(unique(geih_train$chunk_id), unique(geih_validation$chunk_id))) == 0) {
   cat("✓ Sin superposición entre training y validation\n")
 } else {
-  warning("✗ Hay chunks en común entre training y validation. Revisar filtros.")
+  warning("✗ Hay chunks en común. Revisar filtros.")
+}
+
+# Reportar niveles descartados por droplevels()
+cat("\n--- Niveles descartados del training (no vistos en chunks 1-7) ---\n\n")
+for (v in factor_vars) {
+  niveles_full  <- levels(geih_analysis[[v]])
+  niveles_train <- levels(geih_train[[v]])
+  descartados   <- setdiff(niveles_full, niveles_train)
+  if (length(descartados) > 0) {
+    cat(sprintf("  %s: %d nivel(es) descartado(s) → %s\n",
+                v, length(descartados), paste(descartados, collapse = ", ")))
+  } else {
+    cat(sprintf("  %s: sin niveles descartados\n", v))
+  }
+}
+
+# Observaciones en validation afectadas (NAs introducidos)
+cat("\n--- Observaciones en validation con niveles no vistos en training ---\n\n")
+for (v in factor_vars) {
+  n_na <- sum(is.na(geih_validation[[v]]))
+  if (n_na > 0) {
+    cat(sprintf("  %s: %d observaciones con nivel desconocido (NA al predecir)\n", v, n_na))
+  } else {
+    cat(sprintf("  %s: ninguna observación afectada\n", v))
+  }
 }
 
 # ==============================================================================
 # 4. COMPARACIÓN DE ESTADÍSTICAS DESCRIPTIVAS
 # ==============================================================================
-# Verifica que training y validation sean comparables en distribución,
-# lo que valida que el hold-out sea representativo de la muestra general.
 
 cat("\n--- Comparación de estadísticas clave ---\n\n")
 
 stats_comparacion <- data.frame(
-  Variable = c("Log Ingreso (media)", 
+  Variable = c("Log Ingreso (media)",
                "Log Ingreso (sd)",
-               "Edad (media)", 
+               "Edad (media)",
                "Horas trabajadas (media)",
                "% Mujeres"),
   Training = c(
-    round(mean(geih_train$log_income,          na.rm = TRUE), 3),
-    round(sd(geih_train$log_income,            na.rm = TRUE), 3),
-    round(mean(geih_train$age,                 na.rm = TRUE), 1),
-    round(mean(geih_train$totalHoursWorked,    na.rm = TRUE), 1),
-    round(100 * mean(geih_train$female,        na.rm = TRUE), 1)
+    round(mean(geih_train$log_income,       na.rm = TRUE), 3),
+    round(sd(geih_train$log_income,         na.rm = TRUE), 3),
+    round(mean(geih_train$age,              na.rm = TRUE), 1),
+    round(mean(geih_train$totalHoursWorked, na.rm = TRUE), 1),
+    round(100 * mean(geih_train$female,     na.rm = TRUE), 1)
   ),
   Validation = c(
     round(mean(geih_validation$log_income,       na.rm = TRUE), 3),
