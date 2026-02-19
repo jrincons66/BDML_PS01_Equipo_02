@@ -6,7 +6,7 @@
 # =======================================================
 # Modelo 1 - Retornos a educación heterogéneos por género
 
-log_income ~ age + age2 + female + educ + female:educ + usual_hours + tenure + firm_size + indus
+model_1 <- log_income ~ age + age2 + female + educ + female:educ + usual_hours + tenure + firm_size + indus
 
 # Intuición
 # La educación no “paga” igual para hombres y mujeres si hay segmentación ocupacional, discriminación en 
@@ -19,7 +19,7 @@ log_income ~ age + age2 + female + educ + female:educ + usual_hours + tenure + f
 # ==============================================================================
 # Modelo 2 — Perfil edad–ingreso distinto por género (ciclo de vida heterogéneo)
 
-log_income ~ age + age2 + female + female:age + female:age2 + usual_hours + tenure + educ + firm_size + indus
+model_2 <-log_income ~ age + age2 + female + female:age + female:age2 + usual_hours + tenure + educ + firm_size + indus
 
 # Intuición
 # La brecha no tiene por qué ser constante en la vida laboral: puede abrirse con la edad (penalización 
@@ -35,7 +35,7 @@ log_income ~ age + age2 + female + female:age + female:age2 + usual_hours + tenu
 # Tenemos que crear 
 tenure2 = tenure^2
 
-log_income ~ age + age2 + educ + usual_hours + tenure + tenure2 + formal + formal:tenure + firm_size + indus opcional
+model_3 <-log_income ~ age + age2 + educ + usual_hours + tenure + tenure2 + formal + formal:tenure + firm_size + indus opcional
 
 # Intuición
 # Tenure suele tener retornos decrecientes: al inicio se aprende pero luego se estabiliza. Además, en el sector formal,
@@ -48,7 +48,7 @@ log_income ~ age + age2 + educ + usual_hours + tenure + tenure2 + formal + forma
 # =======================================================================================
 # Modelo 4 — interacción industria con género
 
-log_income ~ age + age2 + educ + tenure + firm_size + indus + indus:sex + hoursWorkUsual
+model_4 <-log_income ~ age + age2 + educ + tenure + firm_size + indus + indus:sex + hoursWorkUsual
 
 # Existen industrias donde el machismo sigue siendo muy prevalente y donde el efecto del género es más pronunciado
 # =======================================================================================
