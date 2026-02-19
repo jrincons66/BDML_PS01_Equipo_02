@@ -159,18 +159,24 @@ extended_specs <- list(
   ),
   
   # ----------------------------------------------------------------------------
-  # E5: [ESPECIFICACIÓN 5]
-  # Motivación económica: ...
+  # E5: Kitchen sink (interacciones de segundo orden)
+  # Motivación económica: Esta especificación es más flexible, y permite 
+  #   complementariedades entre capital humano (educación), características laborales 
+  #   (horas, formalidad), y segmentación (industria, tamaño de firma). Al incluir 
+  #   todas las interacciones de segundo orden se reduce el riesgo de error de 
+  #   especificación funcional y se aproxima mejor una función de ingresos f(X) en un 
+  #   contexto donde los retornos pueden depender del sector y del tipo de empleo. 
+  #   Sacrifica interpretabilidad, pero es apropiado cuando el objetivo principal es 
+  #   desempeño predictivo out-of-sample.
   # ----------------------------------------------------------------------------
   E5 = list(
-    formula    = log_income ~ age + age2,  # COMPLETAR
-    label      = "...",                    # COMPLETAR
-    motivacion = "..."                     # COMPLETAR
-  )
-  
-  # ----------------------------------------------------------------------------
-  # Agregar especificaciones adicionales aquí si se desea (E6, E7, ...)
-  # ----------------------------------------------------------------------------
+    formula    = log_income ~ (female + firm_size + educ + indus + formal + age + usual_hours)^2,
+    label      = "Kitchen sink (2nd-order interactions)",
+    motivacion = "Permite efectos cruzados entre capital humano, formalidad y segmentación por 
+    industria/tamaño de firma. Esta flexibilidad reduce el riesgo de misspecification y puede 
+    mejorar RMSE out-of-sample, aunque con menor interpretabilidad y potencial riesgo de 
+    sobreajuste."
+  ),
 
 )
 
