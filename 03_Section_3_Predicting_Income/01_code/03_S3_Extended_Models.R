@@ -166,7 +166,7 @@ extended_specs <- list(
   #   desempeño predictivo out-of-sample.
   # ----------------------------------------------------------------------------
   E5 = list(
-    formula    = log_income ~ (female + firm_size + educ + indus + formal + age + usual_hours)^2,
+    formula    = log_income ~ (female + firm_size + educ + indus + formal + age + age2 + usual_hours)^2,
     label      = "Kitchen sink (2nd-order interactions)",
     motivacion = "Permite efectos cruzados entre capital humano, formalidad y segmentación por 
     industria/tamaño de firma. Esta flexibilidad reduce el riesgo de misspecification y puede 
