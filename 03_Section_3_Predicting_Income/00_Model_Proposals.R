@@ -46,18 +46,11 @@ log_income ~ age + age2 + educ + usual_hours + tenure + tenure2 + formal + forma
 # =================================================================================
 
 # =======================================================================================
-# Modelo 4 — Estructura de horas: “retornos” distintos a horas usuales vs horas efectivas
+# Modelo 4 — interacción industria con género
 
-log_income ~ age + age2 + educ + tenure + firm_size + indus + totalHoursWorked + hoursWorkUsual + totalHoursWorked:hoursWorkUsual
+log_income ~ age + age2 + educ + tenure + firm_size + indus + indus:sex + hoursWorkUsual
 
-# En la base ya tenemso totalHoursWorked y hoursWorkUsual lo renombramos como usual_hours (lo puse en el modelo como está en el dicc)
-
-# Intuición
-# Dos personas pueden trabajar igual “usual”, pero una tuvo una semana atípica (o viceversa). La interacción permite captar que el 
-# efecto de trabajar más horas en la semana previa depende del nivel usual (p.ej. horas extra vs jornada estándar).
-
-# Mejoramos la predicción por que reduce error para observaciones con semanas atípicas, y captura mejor el componente variable 
-# del ingreso.
+# Existen industrias donde el machismo sigue siendo muy prevalente y donde el efecto del género es más pronunciado
 # =======================================================================================
 
 # ===========================================================================================
