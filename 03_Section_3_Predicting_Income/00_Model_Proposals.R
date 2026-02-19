@@ -133,10 +133,11 @@ M0 <- c("age", "age2", "female", "educ", "tenure", "usual_hours", "firm_size", "
 M1 <- c(M0, "female:educ")  # educación heterogénea por género
 M2 <- c(M0, "female:age", "female:age2")   # perfil edad distinto por género
 M3 <- c(M0, "tenure2", "formal", "formal:tenure")  # no linealidad + formalidad
+M4 <- c(M0, "bin_male", "indus:bin_male") # Ocupación + interacciones
 
 # Tentativos
-M4 <- c(M0, "totalHoursWorked", "totalHoursWorked:usual_hours") # horas flexible
-M5 <- c(M0, "relab_group", "relab_group:educ", "relab_group:usual_hours") # segmentación
+M40 <- c(M0, "totalHoursWorked", "totalHoursWorked:usual_hours") # horas flexible
+M50 <- c(M0, "relab_group", "relab_group:educ", "relab_group:usual_hours") # segmentación
 
 models_list <- list(
   M1 = M1,
