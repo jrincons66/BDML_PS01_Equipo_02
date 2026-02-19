@@ -1,6 +1,32 @@
+################################################################################
+##                                                                            ##
+##                        ESTIMACIÓN DE MODELOS                               ##
+##                         GEIH 2018 - Bogotá                                 ##
+##                                                                            ##
+##          Big Data and Machine Learning para Economía Aplicada              ##
+##          MECA 4107 - Universidad de los Andes                              ##
+##                                                                            ##
+################################################################################
+
 #=============================================================================
 # 5. Tabla de resultados
 #==============================================================================
+cat("\n")
+cat("========================================================================\n")
+cat("  5. TABLA DE RESULTADOS - GENDER WAGE GAP                             \n")
+cat("========================================================================\n")
+cat("\n")
+
+cat("------------------------------------------------------------------------\n")
+cat("  Generando tabla                                                       \n")
+cat("------------------------------------------------------------------------\n")
+cat("\n")
+
+cat("  Modelos incluidos:\n")
+cat("    - Modelo Incondicional\n")
+cat("    - Modelo Condicional con industrias (FWL)\n")
+cat("    - Modelo Condicional sin industrias (FWL)\n")
+cat("\n")
 
 tabla_gap <- stargazer(
   s2model_unconditional,
@@ -49,4 +75,10 @@ tabla_gap <- stargazer(
   digits = 4,
   type   = "html",
   out    = "02_output/tables/02_Resultados_Brecha_Genero.html"
+)
+
+cat("\n")
+cat("  Tabla exportada a: 02_output/tables/02_Resultados_Brecha_Genero.html\n")
+cat("\n")
+
 )
