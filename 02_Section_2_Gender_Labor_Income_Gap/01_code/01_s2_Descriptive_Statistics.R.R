@@ -31,3 +31,7 @@ datasummary(
   fmt     = function(x) format(round(x,2), big.mark = ".", decimal.mark = ",", scientific = FALSE),
   output  = "02_output/tables/01_Estadísticas_Descriptivas_Género.png"
 )
+
+ggplot(geih_analysis, aes(x = log_income, fill = factor(sex))) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 40) +
+  labs(fill = "sex")
