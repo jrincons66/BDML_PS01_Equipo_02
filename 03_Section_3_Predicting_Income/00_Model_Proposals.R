@@ -120,3 +120,30 @@ geih_analysis <- geih_analysis %>%
 # que la estructura de ingresos varíe por segmento. O sea que no solo cambia el intercepto sino que también 
 # cambia la pendiente de la función de ingresos. 
 
+
+
+geih_analysis <- geih_analysis %>%
+  mutate(
+    tenure2 = tenure^2
+    # relab_group = ...  # si nos decidieramos por usarlo
+  )
+
+M0 <- c("age", "age2", "female", "educ", "tenure", "usual_hours", "firm_size", "indus")
+
+M1 <- c(M0, "female:educ")  # educación heterogénea por género
+M2 <- c(M0, "female:age", "female:age2")   # perfil edad distinto por género
+M3 <- c(M0, "tenure2", "formal", "formal:tenure")  # no linealidad + formalidad
+
+# Tentativos
+M4 <- c(M0, "totalHoursWorked", "totalHoursWorked:usual_hours") # horas flexible
+M5 <- c(M0, "relab_group", "relab_group:educ", "relab_group:usual_hours") # segmentación
+
+models_list <- list(
+  M1 = M1,
+  M2 = M2,
+  M3 = M3,
+  M4 = M4,
+  M5 = M5
+)
+
+
