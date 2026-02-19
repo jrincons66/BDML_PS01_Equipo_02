@@ -16,7 +16,7 @@
 
 geih_analysis <- geih_analysis %>%
   mutate(
-    `Log Salario`        = log(y_total_m),
+    `Log Salario`        = log_income,
     `Salario Mensual`    = y_total_m,
     `Edad`               = age,
     `Horas Trabajadas`   = totalHoursWorked,
