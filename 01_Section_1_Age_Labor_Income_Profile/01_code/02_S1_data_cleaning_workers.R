@@ -84,3 +84,6 @@ geih_analysis <- geih_analysis %>%
     y_total_m <= quantile(y_total_m, 0.99, na.rm = TRUE)
   )
 
+## Limpieza de environment
+
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis")))
