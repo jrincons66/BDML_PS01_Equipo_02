@@ -124,6 +124,8 @@ source("01_code/06_S1_age_model_results_sum.R")
 #  EJERCICIO 2. Gender Income Wage Gap
 # ==============================================================================
 
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))
+
 # Working directory
 
 here()
@@ -174,6 +176,8 @@ source("01_code/06_s2_Diferencia_Edades.R")
 # ==============================================================================
 # EJERCICIO 3. Predicting Income
 # ==============================================================================
+
+rm(list = setdiff(ls(), c("geih_raw", "geih_analysis","col_primary","col_secondary","col_accent")))
 
 # Working directory
 
