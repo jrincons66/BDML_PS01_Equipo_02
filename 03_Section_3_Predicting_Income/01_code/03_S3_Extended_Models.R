@@ -177,17 +177,7 @@ extended_specs <- list(
 )
 
 # ==============================================================================
-# 3. FUNCIÓN AUXILIAR PARA CALCULAR RMSE
-# ==============================================================================
-
-calc_rmse <- function(model, newdata, outcome = "log_income") {
-  pred   <- predict(model, newdata = newdata)
-  actual <- newdata[[outcome]]
-  sqrt(mean((actual - pred)^2, na.rm = TRUE))
-}
-
-# ==============================================================================
-# 4. LOOP DE ESTIMACIÓN Y EVALUACIÓN
+# 3. LOOP DE ESTIMACIÓN Y EVALUACIÓN
 # ==============================================================================
 
 cat("--- Estimando modelos extendidos ---\n\n")
@@ -231,7 +221,7 @@ extended_results <- do.call(rbind, extended_results)
 rownames(extended_results) <- NULL
 
 # ==============================================================================
-# 5. TABLA COMPARATIVA: BASELINE VS EXTENDIDOS
+# 4. TABLA COMPARATIVA: BASELINE VS EXTENDIDOS
 # ==============================================================================
 
 cat("\n--- Tabla comparativa: baseline vs. extendidos ---\n\n")
@@ -240,7 +230,7 @@ all_results <- rbind(baseline_results, extended_results)
 print(all_results[order(all_results$RMSE_val), ], row.names = FALSE)
 
 # ==============================================================================
-# 6. RESUMEN
+# 5. RESUMEN
 # ==============================================================================
 
 best_extended <- extended_results$Modelo[which.min(extended_results$RMSE_val)]
