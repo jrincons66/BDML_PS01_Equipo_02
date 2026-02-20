@@ -33,9 +33,24 @@ datasummary(
 )
 
 ## histograma de log ingreso separado por género
-ggplot(geih_analysis, aes(x = log_income, fill = factor(sex))) +
-  geom_histogram(alpha = 0.5, position = "identity", bins = 40) +
-  labs(fill = "sex")
+hist_log <- ggplot(geih_analysis,
+                   aes(x = log_income,
+                       fill = factor(sex))) +
+  geom_histogram(alpha = 0.5,
+                 position = "identity",
+                 bins = 40) +
+  labs(title = "Distribución del log ingreso por sexo",
+       x = "Log ingreso mensual",
+       y = "Frecuencia",
+       fill = "Sexo") +
+  theme_minimal()
+ggsave(
+  filename = "02_output/figures/01_Histograma_Log_Ingreso_Sexo.png",
+  plot = hist_log,
+  width = 8,
+  height = 6,
+  dpi = 300
+)
 
 ## grafica de deciles de ingreso por genero
 percentiles_plot <- geih_analysis %>%
@@ -54,11 +69,12 @@ percentiles_plot <- geih_analysis %>%
   pivot_longer(-sex,
                names_to = "Percentil",
                values_to = "Ingreso")
-ggplot(percentiles_plot,
-       aes(x = Percentil,
-           y = Ingreso,
-           group = factor(sex),
-           color = factor(sex))) +
+
+deciles_fig <- ggplot(percentiles_plot,
+                      aes(x = Percentil,
+                          y = Ingreso,
+                          group = factor(sex),
+                          color = factor(sex))) +
   geom_line(size = 1.2) +
   geom_point(size = 2) +
   scale_y_continuous(labels = comma_format(big.mark = ".")) +
@@ -67,3 +83,10 @@ ggplot(percentiles_plot,
        y = "Ingreso mensual",
        color = "Sexo") +
   theme_minimal()
+ggsave(
+  filename = "02_output/figures/02_Deciles_Ingreso_Sexo.png",
+  plot = deciles_fig,
+  width = 8,
+  height = 6,
+  dpi = 300
+)
