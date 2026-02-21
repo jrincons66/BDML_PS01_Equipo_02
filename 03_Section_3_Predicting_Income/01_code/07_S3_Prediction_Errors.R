@@ -60,8 +60,8 @@ errors_df <- geih_validation %>%
     error       = log_income - pred,       # Residuo: positivo = sub-predicción
     error_abs   = abs(error),
     error_sq    = error^2,
-    sub_pred    = error > 0,               # TRUE: modelo subestima el ingreso
-    sobre_pred  = error < 0               # TRUE: modelo sobreestima el ingreso
+    sub_reporte    = error < 0,               # TRUE: modelo sobreestima el ingreso
+    sobre_reporte  = error > 0               # TRUE: modelo subestima el ingreso
   )
 
 # Quitar NAs de predict (obs con niveles no vistos en training)
@@ -72,10 +72,10 @@ rmse_val <- sqrt(mean(errors_df$error_sq))
 cat(sprintf("  Observaciones con predicción válida: %s\n",
             format(nrow(errors_df), big.mark = ",")))
 cat(sprintf("  RMSE validación:                     %.4f\n", rmse_val))
-cat(sprintf("  %% obs sub-predichas (error > 0):    %.1f%%\n",
-            100 * mean(errors_df$sub_pred)))
-cat(sprintf("  %% obs sobre-predichas (error < 0):  %.1f%%\n",
-            100 * mean(errors_df$sobre_pred)))
+cat(sprintf("  %% obs sub-reportadas (error < 0):    %.1f%%\n",
+            100 * mean(errors_df$sub_reporte)))
+cat(sprintf("  %% obs sobre-reportadas (error > 0):  %.1f%%\n",
+            100 * mean(errors_df$sobre_reporte)))
 
 # ==============================================================================
 # 2. DISTRIBUCIÓN DE ERRORES
@@ -110,7 +110,7 @@ comparacion_error <- data.frame(
     round(mean(high_error$log_income,       na.rm = TRUE), 3),
     round(mean(high_error$y_total_m,        na.rm = TRUE), 0),
     round(mean(high_error$totalHoursWorked, na.rm = TRUE), 1),
-    round(100 * mean(high_error$sub_pred,   na.rm = TRUE), 1)
+    round(100 * mean(high_error$sub_reporte,   na.rm = TRUE), 1)
   ),
   Bajo_Error      = c(
     round(mean(low_error$age,              na.rm = TRUE), 1),
@@ -118,7 +118,7 @@ comparacion_error <- data.frame(
     round(mean(low_error$log_income,       na.rm = TRUE), 3),
     round(mean(low_error$y_total_m,        na.rm = TRUE), 0),
     round(mean(low_error$totalHoursWorked, na.rm = TRUE), 1),
-    round(100 * mean(low_error$sub_pred,   na.rm = TRUE), 1)
+    round(100 * mean(low_error$sub_reporte,   na.rm = TRUE), 1)
   )
 )
 
@@ -245,7 +245,7 @@ cat("================================================================\n\n")
 # Observaciones sub-predichas con alto error: candidatos a auditoría
 # (modelo predice menos ingreso del reportado → posible sub-reporte)
 candidatos_auditoria <- errors_df %>%
-  filter(sub_pred & error_abs >= umbral_error)
+  filter(sub_reporte & error_abs >= umbral_error)
 
 cat(sprintf("  Obs. sub-predichas con alto error (top 5%%): %d\n",
             nrow(candidatos_auditoria)))
