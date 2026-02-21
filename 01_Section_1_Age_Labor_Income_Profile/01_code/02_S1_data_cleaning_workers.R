@@ -48,7 +48,7 @@ geih_analysis <- geih_raw %>%
     log_income = log(y_total_m),
     age2 = age^2
   )%>%
-  select(sex, 
+  dplyr::select(sex, 
          female,
          y_total_m,
          log_income,
