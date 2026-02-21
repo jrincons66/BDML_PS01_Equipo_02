@@ -5,17 +5,10 @@
 tabla_gap <- stargazer(
   s2model_unconditional,
   s2model_conditional_con,
-  s2model_conditional_sin,
-  
-  # Errores estándar bootstrap
-  se = list(
-    c(NA, se_uncond),
-    c(NA, se_cond_con),
-    c(NA, se_cond_sin)
-  ),
+  s2model_conditional_sin
   
   # Etiquetas
-  covariate.labels = c(
+  , covariate.labels = c(
     "Female",
     "Female <br> (partialled out with industries)",
     "Female <br> (partialled out no industries)"
@@ -32,6 +25,10 @@ tabla_gap <- stargazer(
   # Wage gap
   
   add.lines = list(
+    c("Bootstrap SE",
+      round(se_uncond, 4),
+      round(se_cond_con, 4),
+      round(se_cond_sin, 4)),
     c("Wage gap (COP)", 
       format(round(dif_uncond), big.mark = ","),
       format(round(dif_con),    big.mark = ","),
@@ -39,7 +36,7 @@ tabla_gap <- stargazer(
   ),
   
   # Notas
-  notes        = c("Bootstrapped Standard Errors in parentheses.",
+  notes        = c(
                    "Wage gap (COP) compared to male average salary.",
                    "* p<0.1, ** p<0.05, *** p<0.01"),
   notes.append = FALSE,
