@@ -40,7 +40,8 @@ geih_analysis <- geih_raw %>%
     age >= 18,
     y_total_m > 0,
     totalHoursWorked > 0,
-    relab %in% c(1,2)
+     #relab %in% c(1,2)
+    !is.na(relab)                 # Tipo empleo no missing
   ) %>%
   # Crear variables necesarias
   mutate(
