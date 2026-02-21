@@ -1,5 +1,7 @@
 # Problem Set 1: Predicting Income
 
+# Grupo 2
+
 ## Big Data and Machine Learning para Economía Aplicada
 
 **MECA 4107** -- Universidad de los Andes -- 2026-10
@@ -12,7 +14,7 @@
 |--------------------|-----------|
 | Jose A. Rincon S   | 202013328 |
 | Juan C. Riaño      | 202013305 |
-| Lucas Rodriguez    | 20.....   |
+| Lucas Rodriguez    | 202021985 |
 | Santiago González  | 202110234 |
 
 ------------------------------------------------------------------------
@@ -87,6 +89,10 @@ grupo_1_BDML/
     │   ├── 01_S3_Train_Test_Split.R         # División training/testing
     │   ├── 02_S3_Baseline_Models.R          # Modelos baseline (Secciones 1 y 2)
     │   └── 03_S3_Extended_Models.R          # Nuevas especificaciones (5+ modelos)
+    │   └── 04_S3_Model_Selection.R          # Se definió el mejor modelo
+    │   └── 05_S3_LOOCV_Error.R              # Calculo del LOOVC
+    │   └── 06_S3_Leverage_Analysis.R        # Realizamos el Leverage del modelo
+    │   └── 07_S3_Prediction_Errors.R        # Se definió el mejor modelo
     └── 02_output/
         ├── figures/
         └── tables/
