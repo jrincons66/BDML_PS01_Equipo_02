@@ -247,7 +247,7 @@ cat("================================================================\n\n")
 candidatos_auditoria <- errors_df %>%
   filter(sub_reporte & error_abs >= umbral_error)
 
-cat(sprintf("  Obs. sub-predichas con alto error (top 5%%): %d\n",
+cat(sprintf("  Obs. sub-reportadas con alto error (top 5%%): %d\n",
             nrow(candidatos_auditoria)))
 cat(sprintf("  Ingreso mensual promedio de este grupo:      COP %s\n",
             format(round(mean(candidatos_auditoria$y_total_m)), big.mark = ",")))
@@ -255,17 +255,6 @@ cat(sprintf("  Edad promedio:                               %.1f años\n",
             mean(candidatos_auditoria$age)))
 cat(sprintf("  %% Mujeres:                                  %.1f%%\n",
             100 * mean(candidatos_auditoria$female)))
-
-cat("\n  Interpretación:\n")
-cat("  Las observaciones con error positivo grande (modelo subestima\n")
-cat("  el ingreso reportado) son candidatas naturales para auditoría,\n")
-cat("  pero deben interpretarse con cautela: el error puede reflejar\n")
-cat("  (a) potencial sub-reporte hacia arriba (ingreso real > predicho),\n")
-cat("  (b) grupos para los cuales el modelo es estructuralmente inadecuado\n")
-cat("  (ej: trabajadores con características atípicas en edad o sector),\n")
-cat("  (c) varianza residual genuina no explicada por los regresores.\n")
-cat("  Una estrategia de auditoría robusta debe combinar la señal del\n")
-cat("  modelo con información adicional sobre el sector y tipo de empleo.\n")
 
 cat("\n================================================================\n")
 cat("                    FIN DE LA SECCIÓN 3                         \n")
